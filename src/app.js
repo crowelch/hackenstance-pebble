@@ -8,6 +8,40 @@ var UI = require('ui');
 var selectedGroups = [];
 var ajax = require('ajax');
 
+var matchCard = new UI.Card({
+	title: "A match has been found!"
+});
+
+//Poll for nearby on accel
+function accelPoll() {
+	var Accel = require('ui/accel');
+	Accel.init();
+	Accel.on('tap', function(e) {
+		var Vibe = require('ui/vibe');
+		Vibe.vibrate('double');
+		//var Light = require('ui/light');
+		//Light.on('long');
+		//if(e.axis.y) {
+			console.log('match');
+			matchCard.show();
+			locationCard.hide();
+			/*ajax({
+    		  	url: 'https://hackenstance.firebaseio.com/users/2/groups.json',
+    			type: 'json',
+    			method: 'post',
+    			data: groupObject
+  			}, function(data, status, request) {
+    			console.log(data.toString());
+  			}, function(error, status, request) {
+    			console.log('The ajax request failed: ' + error);
+  			});
+			*/
+		//}
+	});
+}
+//end poll
+
+
 //Location!
 function location() {
   var locationOptions = {
@@ -140,14 +174,11 @@ ajax({
     type: 'json',
     method: 'post',
     data: groupObject
-  },
-  function(data, status, request) {
+  }, function(data, status, request) {
     console.log(data.toString());
-  },
-  function(error, status, request) {
+  }, function(error, status, request) {
     console.log('The ajax request failed: ' + error);
-  }
-);
+  });
 }
 
 //Menu selector
@@ -157,8 +188,9 @@ menu.on('select', function(menuItem) {
     menu.hide();
     //send groups to firebase
     sendIsFirst(false, selectedGroups);
-      //start sending location data
-      location();
+    //start sending location data
+    location();
+		accelPoll();
   } else {
     selectedGroups.push({
       title: menuItem.item.title
@@ -179,8 +211,9 @@ ajax({
       menu.show();
     } else {
     //start sending location data
-    location();
-    locationCard.show();
+    	location();
+   	locationCard.show();
+		accelPoll();
     }
     console.log(data.isFirst);
   },
