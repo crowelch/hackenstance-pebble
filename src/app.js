@@ -25,17 +25,7 @@ function accelPoll() {
 			console.log('match');
 			matchCard.show();
 			locationCard.hide();
-			/*ajax({
-    		  	url: 'https://hackenstance.firebaseio.com/users/2/groups.json',
-    			type: 'json',
-    			method: 'post',
-    			data: groupObject
-  			}, function(data, status, request) {
-    			console.log(data.toString());
-  			}, function(error, status, request) {
-    			console.log('The ajax request failed: ' + error);
-  			});
-			*/
+			
 		//}
 	});
 }
@@ -172,7 +162,7 @@ ajax({
   ajax({
     url: 'https://hackenstance.firebaseio.com/users/2/groups.json',
     type: 'json',
-    method: 'post',
+    method: 'put',
     data: groupObject
   }, function(data, status, request) {
     console.log(data.toString());
